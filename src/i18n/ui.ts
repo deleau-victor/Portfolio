@@ -1,6 +1,10 @@
 import type { Locale } from "./config";
 
 const fr = {
+  // META
+  "meta.title": "Victor Deleau · Ingénieur Backend .NET Senior",
+  "meta.description":
+    "Ingénieur backend .NET senior. Je modernise des applications métier en production, sans gel des fonctionnalités : Clean Architecture, DDD, CQRS, OAuth2/OIDC.",
   // NAVIGATION
   "nav.expertise": "Expertise",
   "nav.projects": "Projets",
@@ -125,6 +129,10 @@ const fr = {
 } as const;
 
 const en = {
+  // META
+  "meta.title": "Victor Deleau · Senior .NET Backend Engineer",
+  "meta.description":
+    "Senior .NET backend engineer. I modernize business applications in production without a feature freeze: Clean Architecture, DDD, CQRS, OAuth2/OIDC.",
   // NAVIGATION
   "nav.expertise": "Expertise",
   "nav.projects": "Projects",
@@ -247,6 +255,10 @@ const en = {
 } as const;
 
 const es = {
+  // META
+  "meta.title": "Victor Deleau · Ingeniero Backend .NET Senior",
+  "meta.description":
+    "Ingeniero backend .NET senior. Modernizo aplicaciones de negocio en producción sin congelar funcionalidades: Clean Architecture, DDD, CQRS, OAuth2/OIDC.",
   // NAVIGATION
   "nav.expertise": "Competencias",
   "nav.projects": "Proyectos",

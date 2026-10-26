@@ -1,17 +1,34 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
+import sitemap from "@astrojs/sitemap";
 import { locales, defaultLocale } from "./src/i18n/config.ts";
+
+/** @param {string} url */
+const withHomeSlash = (url) => url.replace(new RegExp(`/(${locales.join("|")})$`), "/$1/");
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://coresync.fr",
-  // `[lang]/404.astro` -> `fr/404.html` (not `fr/404/index.html`): Cloudflare Pages serves the closest 404.html.
   build: { format: "preserve" },
   i18n: {
     locales: [...locales],
     defaultLocale,
     routing: { prefixDefaultLocale: true, redirectToDefaultLocale: false },
   },
+  integrations: [
+    sitemap({
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        return pathname !== "/" && !/\/404(\.html)?\/?$/.test(pathname);
+      },
+      i18n: { defaultLocale, locales: Object.fromEntries(locales.map((locale) => [locale, locale])) },
+      serialize: (item) => ({
+        ...item,
+        url: withHomeSlash(item.url),
+        links: item.links?.map((link) => ({ ...link, url: withHomeSlash(link.url) })),
+      }),
+    }),
+  ],
   fonts: [
     {
       provider: fontProviders.google(),

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { locales } from "@/i18n/config";
+import { getCurrentLocale, useTranslations } from "@/i18n/utils";
 
 import Hero from "@/sections/hero/hero.astro";
 import Expertise from "@/sections/expertise/expertise.astro";
@@ -9,10 +10,23 @@ import About from "@/sections/about/about.astro";
 import Contact from "@/sections/contact/contact.astro";
 
 export const getStaticPaths = () => locales.map((lang) => ({ params: { lang } }));
-const { lang } = Astro.params;
+const t = useTranslations(getCurrentLocale(Astro.currentLocale));
+
+// Structured data: tells search engines who the site is about, and links the profiles to the name.
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Victor Deleau",
+  jobTitle: "Senior .NET Backend Engineer",
+  url: "https://coresync.fr/en/",
+  sameAs: ["https://github.com/CoreSyncHub", "https://www.linkedin.com/in/victor-deleau"],
+  knowsAbout: [".NET", "C#", "Clean Architecture", "Domain-Driven Design", "CQRS", "OAuth 2.0", "OpenID Connect"],
+  knowsLanguage: ["fr", "en", "es"],
+};
 ---
 
-<BaseLayout title="Portfolio">
+<BaseLayout title={t("meta.title")} description={t("meta.description")}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(person)} />
   <Hero />
   <Expertise />
   <Projects />

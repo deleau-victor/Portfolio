@@ -1,6 +1,6 @@
 ---
 import { Font } from "astro:assets";
-import { locales } from "@/i18n/config";
+import { defaultLocale, locales, type Locale } from "@/i18n/config";
 import { getCurrentLocale, getLocalizedPath } from "@/i18n/utils";
 import NavigationBar from "@/components/navigationBar/navigationBar.astro";
 import Footer from "@/components/footer/footer.astro";
@@ -14,19 +14,25 @@ interface Props {
 
 const { title, description } = Astro.props;
 
+// Open Graph locales are language_TERRITORY.
+const ogLocales: Record<Locale, string> = { fr: "fr_FR", en: "en_US", es: "es_ES" };
+
 const lang = getCurrentLocale(Astro.currentLocale);
-// The 404 page answers any unknown URL: it must not be indexed nor declare localized versions.
 const isNotFound = Astro.response.status === 404;
-const alternates =
-  Astro.site && !isNotFound
-    ? [
-        ...locales.map((locale) => ({
-          hreflang: locale,
-          href: new URL(getLocalizedPath(Astro.url.pathname, locale), Astro.site).href,
-        })),
-        { hreflang: "x-default", href: new URL("/", Astro.site).href },
-      ]
-    : [];
+const isIndexable = Astro.site && !isNotFound;
+const toAbsolute = (path: string): string => new URL(path, Astro.site).href;
+
+const canonical = isIndexable ? toAbsolute(Astro.url.pathname) : undefined;
+const alternates = isIndexable
+  ? [
+      ...locales.map((locale) => ({
+        hreflang: locale,
+        href: toAbsolute(getLocalizedPath(Astro.url.pathname, locale)),
+      })),
+      { hreflang: "x-default", href: toAbsolute(getLocalizedPath(Astro.url.pathname, defaultLocale)) },
+    ]
+  : [];
+const ogImage = toAbsolute(`/og/og-${lang}.png`);
 ---
 
 <!doctype html>
@@ -39,7 +45,31 @@ const alternates =
     {isNotFound && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    {canonical && <link rel="canonical" href={canonical} />}
     {alternates.map(({ hreflang, href }) => <link rel="alternate" hreflang={hreflang} href={href} />)}
+    <!-- Link previews (LinkedIn, Slack, X…) -->
+    {
+      canonical && (
+        <>
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="Victor Deleau" />
+          <meta property="og:url" content={canonical} />
+          <meta property="og:title" content={title} />
+          {description && <meta property="og:description" content={description} />}
+          <meta property="og:image" content={ogImage} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={title} />
+          <meta property="og:locale" content={ogLocales[lang]} />
+          {locales
+            .filter((locale) => locale !== lang)
+            .map((locale) => (
+              <meta property="og:locale:alternate" content={ogLocales[locale]} />
+            ))}
+          <meta name="twitter:card" content="summary_large_image" />
+        </>
+      )
+    }
     <Font cssVariable="--font-albert-sans" preload={[{ style: "normal" }]} />
     <Font cssVariable="--font-dm-mono" />
     <meta name="generator" content={Astro.generator} />
