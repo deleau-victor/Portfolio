@@ -1,0 +1,91 @@
+---
+import { getCurrentLocale, useTranslations } from "@/i18n/utils";
+
+const lang = getCurrentLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const email = "deleau.victor.pro@gmail.com";
+---
+
+<section id="contact" class="contact" aria-labelledby="contact-heading">
+  <div class="contact__container">
+    <!-- HEADING  -->
+    <div class="contact__head">
+      <h2 id="contact-heading">{t("nav.contact")}</h2>
+      <p>{t("hero.identity.availability")}</p>
+    </div>
+    <!-- CONTACT LINES -->
+    <div class="contact__lines">
+      <div class="contact__lines__email" data-copy>
+        <a href={`mailto:${email}`} data-copy-source>{email}</a>
+        <!-- Hidden until the script checks the clipboard is available -->
+        <button type="button" class="copy" hidden data-copy-button data-copied-label={t("contact.copied")}>
+          {t("contact.copy")}
+        </button>
+        <span role="status" data-sr-only data-copy-status></span>
+      </div>
+      <dl class="contact__lines__list">
+        <div>
+          <dt>GitHub</dt><dd>
+            <a href="https://github.com/CoreSyncHub" target="_blank" rel="noopener">github.com/CoreSyncHub</a>
+          </dd>
+        </div>
+        <div>
+          <dt>Linkedin</dt><dd>
+            <a href="https://www.linkedin.com/in/victor-deleau/" target="_blank" rel="noopener"
+              >linkedin.com/in/victor-deleau</a
+            >
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<script>
+  const FEEDBACK_DURATION = 1600;
+
+  const setupCopy = (root: HTMLElement): void => {
+    const source = root.querySelector<HTMLElement>("[data-copy-source]");
+    const button = root.querySelector<HTMLButtonElement>("[data-copy-button]");
+    const status = root.querySelector<HTMLElement>("[data-copy-status]");
+    if (!source || !button || !status || !navigator.clipboard) {
+      return;
+    }
+
+    const label = button.textContent?.trim() ?? "";
+    const copiedLabel = button.dataset.copiedLabel ?? label;
+    let resetTimer: number | undefined;
+
+    // METHODS //
+    const showFeedback = (): void => {
+      button.textContent = copiedLabel;
+      status.textContent = copiedLabel;
+      clearTimeout(resetTimer);
+      resetTimer = window.setTimeout(() => {
+        button.textContent = label;
+        status.textContent = "";
+      }, FEEDBACK_DURATION);
+    };
+
+    // Fallback when writing is refused: selects the text
+    const selectSource = (): void => {
+      const range = document.createRange();
+      range.selectNodeContents(source);
+      getSelection()?.removeAllRanges();
+      getSelection()?.addRange(range);
+    };
+
+    // EVENTS HANDLING //
+    button.addEventListener("click", () => {
+      navigator.clipboard.writeText(source.textContent?.trim() ?? "").then(showFeedback, selectSource);
+    });
+
+    button.hidden = false;
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-copy]").forEach(setupCopy);
+</script>
+
+<style lang="scss">
+  @use "./contact.scss";
+</style>

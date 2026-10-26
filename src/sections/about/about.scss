@@ -1,0 +1,113 @@
+@use "../../styles/abstracts" as *;
+
+.about {
+  @include section;
+  &__container {
+    @include container;
+  }
+}
+
+.about__head {
+  @include section_head;
+}
+
+.about__main__container {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 56px;
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.about__left__container {
+  display: grid;
+  gap: 44px;
+  min-width: 0;
+}
+
+.about__intro__prose {
+  display: grid;
+  gap: 16px;
+  max-width: 62ch;
+  text-align: justify;
+}
+
+.about__experience {
+  @include block;
+  &__timeline {
+    li {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 20px;
+      padding-block: 16px;
+      border-top: 1px solid var(--border);
+      @media (max-width: 520px) {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+      &:last-child {
+        border-bottom: 1px solid var(--border);
+      }
+    }
+
+    &__date {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+      padding-top: 3px;
+    }
+
+    &__org {
+      font-weight: 700;
+    }
+
+    &__role {
+      color: var(--fg-muted);
+      font-size: 0.95rem;
+    }
+
+    &__desc {
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+  }
+}
+
+.about__right__container {
+  @include panel;
+  padding: 24px;
+  display: grid;
+  gap: 28px;
+  align-content: start;
+}
+
+.about__stack {
+  @include block;
+  ul.stack {
+    @include stack;
+  }
+}
+
+.about__approach {
+  color: var(--fg-muted);
+  font-size: 0.95rem;
+}
+
+.about__languages {
+  @include block;
+  &__list {
+    div {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      padding-block: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    dd {
+      color: var(--fg-muted);
+    }
+  }
+}

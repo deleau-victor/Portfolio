@@ -1,0 +1,21 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { locales } from "@/i18n/config";
+
+import Hero from "@/sections/hero/hero.astro";
+import Expertise from "@/sections/expertise/expertise.astro";
+import Projects from "@/sections/projects/projects.astro";
+import About from "@/sections/about/about.astro";
+import Contact from "@/sections/contact/contact.astro";
+
+export const getStaticPaths = () => locales.map((lang) => ({ params: { lang } }));
+const { lang } = Astro.params;
+---
+
+<BaseLayout title="Portfolio">
+  <Hero />
+  <Expertise />
+  <Projects />
+  <About />
+  <Contact />
+</BaseLayout>

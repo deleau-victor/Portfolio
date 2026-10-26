@@ -1,0 +1,19 @@
+---
+import { getCurrentLocale, useTranslations } from "@/i18n/utils";
+
+const lang = getCurrentLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+
+import CoreSyncIcon from "@/components/icons/coresync.svg";
+---
+
+<footer class="footer">
+  <div class="footer__container">
+    <span class="footer__brand"><CoreSyncIcon /> © 2026 Victor Deleau · CoreSync · coresync.fr</span>
+  </div>
+  <div class="footer__band"></div>
+</footer>
+
+<style lang="scss">
+  @use "./footer.scss";
+</style>

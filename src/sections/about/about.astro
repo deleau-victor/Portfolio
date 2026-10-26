@@ -1,0 +1,95 @@
+---
+import type { UiKey } from "@/i18n/ui";
+import { getCurrentLocale, useTranslations } from "@/i18n/utils";
+
+const lang = getCurrentLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+
+<section id="about" class="about" aria-labelledby="about-heading">
+  <div class="about__container">
+    <!-- HEADING  -->
+    <div class="about__head">
+      <h2 id="about-heading">{t("nav.about")}</h2>
+    </div>
+    <div class="about__main__container">
+      <!-- LEFT CONTAINER -->
+      <div class="about__left__container">
+        <!-- INTRO -->
+        <div class="about__intro__prose">
+          {
+            Array.from({ length: 4 }, (_, i) => {
+              const key = `about.intro.${i + 1}` as UiKey;
+              return <p>{t(key)}</p>;
+            })
+          }
+        </div>
+        <!-- EXPERIENCE -->
+        <div class="about__experience">
+          <h3>{t("about.experience")}</h3>
+          <ol class="about__experience__timeline">
+            {
+              Array.from({ length: 4 }, (_, i) => {
+                const baseKey: string = `about.experience.${i + 1}.`;
+                const date = (baseKey + "date") as UiKey;
+                const org = (baseKey + "org") as UiKey;
+                const role = (baseKey + "role") as UiKey;
+                const desc = (baseKey + "desc") as UiKey;
+                return (
+                  <li>
+                    <span class="about__experience__timeline__date">{t(date)}</span>
+                    <div>
+                      <div class="about__experience__timeline__org">{t(org)}</div>
+                      <div class="about__experience__timeline__role">{t(role)}</div>
+                      <div class="about__experience__timeline__desc">{t(desc)}</div>
+                    </div>
+                  </li>
+                );
+              })
+            }
+          </ol>
+        </div>
+      </div>
+      <!-- RIGHT CONTAINER -->
+      <div class="about__right__container">
+        <!-- STACK -->
+        <div class="about__stack">
+          <h3>{t("about.stack")}</h3>
+          <ul class="stack">
+            <li>C#</li>
+            <li>.NET</li>
+            <li>ASP.NET Core</li>
+            <li>EF Core</li>
+            <li>PostgreSQL</li>
+            <li>Azure</li>
+            <li>Kubernetes</li>
+            <li>OpenTelemetry</li>
+          </ul>
+          <p class="about__approach">{t("about.approach")}</p>
+        </div>
+        <!-- LANGUAGES -->
+        <div class="about__languages">
+          <h3>{t("about.langs")}</h3>
+          <dl class="about__languages__list">
+            <div>
+              <dt>{t("about.langs.en")}</dt>
+              <dd>{t("about.langs.en.level")}</dd>
+            </div>
+            <div>
+              <dt>{t("about.langs.fr")}</dt>
+              <dd>{t("about.langs.fr.level")}</dd>
+            </div>
+            <div>
+              <dt>{t("about.langs.es")}</dt>
+              <dd>{t("about.langs.es.level")}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "./about.scss";
+</style>

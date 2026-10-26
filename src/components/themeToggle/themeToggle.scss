@@ -1,0 +1,35 @@
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--fg);
+  cursor: pointer;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--accent);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.theme-toggle__sun {
+  display: none;
+}
+
+:global(:root[data-theme="dark"]) {
+  .theme-toggle__moon {
+    display: none;
+  }
+
+  .theme-toggle__sun {
+    display: block;
+  }
+}

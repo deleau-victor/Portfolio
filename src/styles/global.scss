@@ -1,0 +1,9 @@
+@use "base/reset";
+@use "base/tokens";
+@use "base/typography";
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+}

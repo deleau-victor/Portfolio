@@ -1,0 +1,9 @@
+.orbs {
+  position: absolute;
+  top: 24px;
+  right: max(0px, calc(20px - 2vw));
+  width: min(32vw, 350px);
+  max-width: 100%;
+  aspect-ratio: 1;
+  pointer-events: none;
+}

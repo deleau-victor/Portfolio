@@ -1,0 +1,173 @@
+---
+import Orbs from "@/components/orbs/orbs.astro";
+import { getCurrentLocale, useTranslations } from "@/i18n/utils";
+
+const lang = getCurrentLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const home = `/${lang}/`;
+---
+
+<main class="not-found" aria-labelledby="not-found-title">
+  <div class="not-found__container">
+    <Orbs />
+    <!-- MESSAGE -->
+    <div class="not-found__message">
+      <p class="not-found__code">{t("notFound.code")}</p>
+      <h1 class="not-found__title" id="not-found-title">{t("notFound.title")}</h1>
+      <p class="not-found__text">{t("notFound.text")}</p>
+      <p class="not-found__path" hidden data-not-found-path>
+        <span>{t("notFound.path")}</span>
+        <code data-not-found-path-value></code>
+      </p>
+    </div>
+    <!-- WAYS OUT -->
+    <a class="not-found__back" href={home}>{t("notFound.back")}</a>
+    <p class="not-found__more">
+      <span>{t("notFound.more")}</span>
+      <a href={`${home}#expertise`}>{t("nav.expertise")}</a>
+      <a href={`${home}#projects`}>{t("nav.projects")}</a>
+      <a href={`${home}#contact`}>{t("nav.contact")}</a>
+    </p>
+  </div>
+</main>
+
+<script>
+  import { FROM_PARAM } from "./notFound";
+
+  /**
+   * Finds the URL the visitor asked for.
+   * @returns The requested path, or null when the 404 page is opened directly.
+   */
+  const getRequestedPath = (): string | null => {
+    // Redirected by the root 404 (GitHub Pages): the requested URL is in the query.
+    const from = new URLSearchParams(location.search).get(FROM_PARAM);
+    // Same-site paths only: "//host/…" would point to another site.
+    if (from?.startsWith("/") && !from.startsWith("//")) {
+      // Puts the requested URL back in the address bar.
+      history.replaceState(null, "", from);
+      return from;
+    }
+
+    const { pathname, search } = location;
+    return pathname === "/" || /\/404(\.html)?\/?$/.test(pathname) ? null : pathname + search;
+  };
+
+  const pathLine = document.querySelector<HTMLElement>("[data-not-found-path]");
+  const pathValue = pathLine?.querySelector<HTMLElement>("[data-not-found-path-value]");
+  const path = getRequestedPath();
+
+  if (pathLine && pathValue && path) {
+    try {
+      pathValue.textContent = decodeURIComponent(path);
+    } catch {
+      pathValue.textContent = path;
+    }
+    pathLine.hidden = false;
+  }
+</script>
+
+<style lang="scss">
+  @use "../../styles/abstracts" as *;
+
+  :global(body) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  .not-found {
+    flex: 1 0 auto;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(180deg, var(--bg-accent) 0%, var(--bg) 100%);
+
+    &__container {
+      @include container;
+      position: relative;
+      width: 100%;
+      display: grid;
+      justify-items: start;
+      gap: 32px;
+      padding-block: 80px 88px;
+    }
+
+    &__message {
+      position: relative;
+      display: grid;
+      gap: 14px;
+      max-width: min(620px, 60%);
+    }
+
+    &__code {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    &__title {
+      font-size: clamp(2.6rem, 6vw, 4.3rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1;
+    }
+
+    &__text {
+      font-size: clamp(1.15rem, 2vw, 1.35rem);
+      line-height: 1.45;
+      max-width: 46ch;
+    }
+
+    &__path {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 10px;
+      color: var(--fg-muted);
+      font-size: 0.95rem;
+
+      &[hidden] {
+        display: none;
+      }
+
+      code {
+        max-width: 100%;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        color: var(--fg);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        overflow-wrap: anywhere;
+      }
+    }
+
+    &__back {
+      @include button;
+      position: relative;
+    }
+
+    &__more {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 18px;
+      font-weight: 600;
+
+      span {
+        color: var(--fg-muted);
+        font-weight: 500;
+      }
+
+      a {
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+</style>

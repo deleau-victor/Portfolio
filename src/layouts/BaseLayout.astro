@@ -1,0 +1,65 @@
+---
+import { Font } from "astro:assets";
+import { locales } from "@/i18n/config";
+import { getCurrentLocale, getLocalizedPath } from "@/i18n/utils";
+import NavigationBar from "@/components/navigationBar/navigationBar.astro";
+import Footer from "@/components/footer/footer.astro";
+import { THEME_STORAGE_KEY } from "@/components/themeToggle/theme";
+import "@/styles/global.scss";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const lang = getCurrentLocale(Astro.currentLocale);
+// The 404 page answers any unknown URL: it must not be indexed nor declare localized versions.
+const isNotFound = Astro.response.status === 404;
+const alternates =
+  Astro.site && !isNotFound
+    ? [
+        ...locales.map((locale) => ({
+          hreflang: locale,
+          href: new URL(getLocalizedPath(Astro.url.pathname, locale), Astro.site).href,
+        })),
+        { hreflang: "x-default", href: new URL("/", Astro.site).href },
+      ]
+    : [];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {isNotFound && <meta name="robots" content="noindex" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    {alternates.map(({ hreflang, href }) => <link rel="alternate" hreflang={hreflang} href={href} />)}
+    <Font cssVariable="--font-albert-sans" preload={[{ style: "normal" }]} />
+    <Font cssVariable="--font-dm-mono" />
+    <meta name="generator" content={Astro.generator} />
+    <!-- Inline and blocking on purpose: sets the theme before the first paint, so it never flashes. -->
+    <script is:inline define:vars={{ storageKey: THEME_STORAGE_KEY }}>
+      let theme = null;
+      try {
+        theme = localStorage.getItem(storageKey);
+      } catch {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.dataset.theme = theme;
+    </script>
+    <!-- Page-specific head content (e.g. the root 404 redirect) -->
+    <slot name="head" />
+  </head>
+  <body>
+    <NavigationBar />
+    <slot />
+    <Footer />
+  </body>
+</html>

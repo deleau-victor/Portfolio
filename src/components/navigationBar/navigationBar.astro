@@ -1,0 +1,63 @@
+---
+import LanguageSwitcher from "@/components/languageSwitcher/languageSwitcher.astro";
+import ThemeToggle from "@/components/themeToggle/themeToggle.astro";
+
+import { getCurrentLocale, useTranslations } from "@/i18n/utils";
+
+const lang = getCurrentLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+// Anchors target the home page, so they also work from other pages (e.g. the 404).
+const home = `/${lang}/`;
+---
+
+<header class="navbar">
+  <div class="navbar__content">
+    <!-- BRAND -->
+    <a class="navbar__brand" href={home}>Victor Deleau</a>
+    <!-- NAVIGATION -->
+    <nav class="navbar__navigation" aria-label="Primary">
+      <ul class="navbar__navigation__links" data-navbar-links>
+        <li><a class="navbar__navigation__link" href={`${home}#expertise`}>{t("nav.expertise")}</a></li>
+        <li><a class="navbar__navigation__link" href={`${home}#projects`}>{t("nav.projects")}</a></li>
+        <li data-hidden><a class="navbar__navigation__link" href={`${home}#writing`}>Writing</a></li>
+        <li><a class="navbar__navigation__link" href={`${home}#about`}>{t("nav.about")}</a></li>
+        <li data-hidden><a class="navbar__navigation__link" href={`${home}#services`}>Work with me</a></li>
+        <li><a class="navbar__navigation__link" href={`${home}#contact`}>{t("nav.contact")}</a></li>
+      </ul>
+    </nav>
+    <!-- CONTROLS -->
+    <div class="navbar__controls">
+      <LanguageSwitcher />
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<script>
+  const setupNavigationHighlight = (list: HTMLElement): void => {
+    const links = new Map<string, HTMLAnchorElement>();
+    list.querySelectorAll<HTMLAnchorElement>('a[href*="#"]').forEach((link) => links.set(link.hash.slice(1), link));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+          // The hero clear the highlight
+          links.forEach((link) => link.removeAttribute("aria-current"));
+          links.get(entry.target.id)?.setAttribute("aria-current", "true");
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+
+    document.querySelectorAll("section[id]").forEach((section) => observer.observe(section));
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-navbar-links]").forEach(setupNavigationHighlight);
+</script>
+
+<style lang="scss">
+  @use "./navigationBar";
+</style>

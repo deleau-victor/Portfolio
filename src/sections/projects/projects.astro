@@ -1,0 +1,72 @@
+---
+import type { UiKey } from "@/i18n/ui";
+import { getCurrentLocale, useTranslations } from "@/i18n/utils";
+
+const lang = getCurrentLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+
+type ProjectContent = {
+  title: UiKey;
+  content: UiKey;
+  tags: UiKey;
+  links: UiKey;
+};
+
+const projects: Array<ProjectContent> = Array.from({ length: 5 }, (_, i) => {
+  return {
+    title: `projects.${i + 1}.title` as UiKey,
+    content: `projects.${i + 1}.content` as UiKey,
+    tags: `projects.${i + 1}.tags` as UiKey,
+    links: `projects.${i + 1}.links` as UiKey,
+  };
+});
+---
+
+<section id="projects" class="projects" aria-labelledby="projects-heading">
+  <div class="projects__container">
+    <!-- HEADING  -->
+    <div class="projects__head">
+      <h2 id="projects-heading">{t("nav.projects")}</h2>
+      <p>{t("projects.intro")}</p>
+    </div>
+    <!-- PROJECTS PANEL  -->
+    <div class="projects__list">
+      {
+        projects.map((p) => (
+          <article class="projects__item">
+            <div class="projects__item__heading">
+              <h3>{t(p.title)}</h3>
+            </div>
+            <p class="projects__item__content">{t(p.content)}</p>
+            <ul class="projects__item__stacks">
+              {t(p.tags)
+                .split("|")
+                .map((tag) => (
+                  <li>{tag.trim()}</li>
+                ))}
+            </ul>
+            <div class="projects__item__links">
+              {t(p.links).split("|").length > 0 &&
+                t(p.links)
+                  .split("|")
+                  .map((l) => {
+                    const href = l.slice(l.indexOf("(") + 1, l.indexOf(")"));
+                    const title = l.slice(l.indexOf("[") + 1, l.indexOf("]"));
+
+                    return (
+                      <a href={href} target="_blank" rel="noopener">
+                        {title}
+                      </a>
+                    );
+                  })}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "./projects.scss";
+</style>

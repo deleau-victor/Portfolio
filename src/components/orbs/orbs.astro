@@ -1,0 +1,14 @@
+<canvas class="orbs" aria-hidden="true" data-orbs></canvas>
+
+<script>
+  import { drawOrbs } from "./orbs";
+
+  const resizeObserver = new ResizeObserver((entries) =>
+    entries.forEach((entry) => drawOrbs(entry.target as HTMLCanvasElement)),
+  );
+  document.querySelectorAll<HTMLCanvasElement>("[data-orbs]").forEach((canvas) => resizeObserver.observe(canvas));
+</script>
+
+<style lang="scss">
+  @use "./orbs";
+</style>

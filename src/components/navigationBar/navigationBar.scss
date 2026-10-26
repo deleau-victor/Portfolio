@@ -1,0 +1,69 @@
+@use "../../styles/abstracts" as *;
+
+// Sticky container for navbar
+.navbar {
+  position: sticky;
+  z-index: 999;
+  top: env(safe-area-inset-top, 0px);
+  background: var(--surface);
+  box-shadow: 0 1px 0 var(--border);
+
+  &__content {
+    @include container;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "brand nav controls";
+    align-items: center;
+    gap: 8px 32px;
+    padding-block: 14px;
+  }
+
+  &__brand {
+    grid-area: brand;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  &__navigation {
+    grid-area: nav;
+    min-width: 0;
+
+    &__links {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &__link {
+      display: block;
+      padding: 6px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      color: var(--fg);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.15s ease;
+
+      &:hover,
+      &[aria-current="true"] {
+        color: var(--accent);
+      }
+    }
+  }
+
+  &__controls {
+    grid-area: controls;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

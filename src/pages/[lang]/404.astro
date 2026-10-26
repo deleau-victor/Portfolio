@@ -1,0 +1,16 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import NotFound from "@/sections/notFound/notFound.astro";
+import { locales } from "@/i18n/config";
+import { getCurrentLocale, useTranslations } from "@/i18n/utils";
+
+export const getStaticPaths = () => locales.map((lang) => ({ params: { lang } }));
+
+Astro.response.status = 404;
+
+const t = useTranslations(getCurrentLocale(Astro.currentLocale));
+---
+
+<BaseLayout title={`404 · ${t("notFound.title")}`}>
+  <NotFound />
+</BaseLayout>

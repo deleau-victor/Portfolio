@@ -1,0 +1,69 @@
+@use "../../styles/abstracts" as *;
+
+.contact {
+  @include section($alt: true);
+  &__container {
+    @include container;
+  }
+}
+
+.contact__head {
+  @include section_head;
+}
+
+.contact__lines {
+  @include panel;
+  padding: 28px;
+  display: grid;
+  gap: 22px;
+  max-width: 720px;
+
+  &__email {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+
+    a {
+      font-weight: 800;
+      font-size: clamp(1.3rem, 3.2vw, 1.9rem);
+      letter-spacing: -0.02em;
+      overflow-wrap: anywhere;
+      min-width: 0;
+    }
+
+    .copy {
+      font: 700 0.85rem/1 var(--font);
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 7px;
+      background: var(--bg-alt);
+      color: var(--fg);
+      cursor: pointer;
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+
+  &__list {
+    div {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 16px;
+      align-items: baseline;
+      padding-block: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    dt {
+      font-weight: 700;
+    }
+
+    dd {
+      overflow-wrap: anywhere;
+      min-width: 0;
+    }
+  }
+}

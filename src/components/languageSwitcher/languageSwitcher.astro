@@ -1,0 +1,87 @@
+---
+import ChevronDownIcon from "@/components/icons/chevronDown.svg";
+import GlobeIcon from "@/components/icons/globe.svg";
+import { localeNames, locales } from "@/i18n/config";
+import { getCurrentLocale, getLocalizedPath, useTranslations } from "@/i18n/utils";
+
+interface Props {
+  id?: string;
+}
+
+const { id = "lang-menu" } = Astro.props;
+
+const currentLocale = getCurrentLocale(Astro.currentLocale);
+const t = useTranslations(currentLocale);
+
+// On the 404 page, the same path doesn't exist in other locales either: link to their home page instead.
+const isNotFound = Astro.response.status === 404;
+const getLocaleHref = (locale: (typeof locales)[number]): string =>
+  isNotFound ? `/${locale}/` : getLocalizedPath(Astro.url.pathname, locale);
+---
+
+<div class="lang" data-lang-switcher>
+  <!-- LANG CONTROL BUTTON -->
+  <button
+    type="button"
+    class="lang__trigger"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-controls={id}
+    data-lang-trigger
+  >
+    <GlobeIcon class="globe" aria-hidden="true" />
+    <span data-sr-only>{t("ui.lang")}</span>
+    <span>{currentLocale.toUpperCase()}</span>
+    <ChevronDownIcon class="caret" aria-hidden="true" />
+  </button>
+  <!-- LANG CONTROL DROPDOWN -->
+  <ul class="lang__menu" id={id} hidden data-lang-menu>
+    {
+      locales.map((locale) => (
+        <li>
+          <a
+            class="lang__menu__link"
+            href={getLocaleHref(locale)}
+            hreflang={locale}
+            lang={locale}
+            aria-current={locale === currentLocale ? "true" : undefined}
+          >
+            <span>{localeNames[locale]}</span>
+            <span class="lang__menu__code">{locale.toUpperCase()}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  import { isLocale } from "@/i18n/config";
+  import { setPreferredLocale } from "@/i18n/preferredLocale";
+  import { setupDropdownMenu } from "@/scripts/dropdownMenu";
+
+  const setupLanguageSwitcher = (root: HTMLElement): void => {
+    const trigger = root.querySelector<HTMLButtonElement>("[data-lang-trigger]");
+    const menu = root.querySelector<HTMLUListElement>("[data-lang-menu]");
+    if (!trigger || !menu) {
+      return;
+    }
+
+    setupDropdownMenu(root, trigger, menu);
+
+    // Remembers the chosen locale, so the root URL redirects to it on the next visit.
+    menu.querySelectorAll("a").forEach((item) =>
+      item.addEventListener("click", () => {
+        if (isLocale(item.hreflang)) {
+          setPreferredLocale(item.hreflang);
+        }
+      }),
+    );
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-lang-switcher]").forEach(setupLanguageSwitcher);
+</script>
+
+<style lang="scss">
+  @use "./languageSwitcher";
+</style>

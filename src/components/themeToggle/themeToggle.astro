@@ -1,0 +1,32 @@
+---
+import MoonIcon from "@/components/icons/moon.svg";
+import SunIcon from "@/components/icons/sun.svg";
+import { getCurrentLocale, useTranslations } from "@/i18n/utils";
+
+const t = useTranslations(getCurrentLocale(Astro.currentLocale));
+---
+
+<button type="button" class="theme-toggle" aria-label={t("ui.theme")} data-theme-toggle>
+  <MoonIcon class="theme-toggle__moon" aria-hidden="true" />
+  <SunIcon class="theme-toggle__sun" aria-hidden="true" />
+</button>
+
+<style lang="scss">
+  @use "./themeToggle";
+</style>
+
+<script>
+  import { THEME_STORAGE_KEY, type Theme } from "./theme";
+
+  const root = document.documentElement;
+
+  document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) =>
+    button.addEventListener("click", () => {
+      const nextTheme: Theme = root.dataset.theme === "dark" ? "light" : "dark";
+      root.dataset.theme = nextTheme;
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+      } catch {}
+    }),
+  );
+</script>

@@ -1,0 +1,58 @@
+---
+import type { UiKey } from "@/i18n/ui";
+import { getCurrentLocale, useTranslations } from "@/i18n/utils";
+
+const lang = getCurrentLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+
+type ExpertiseContent = {
+  title: UiKey;
+  line: UiKey;
+  content: UiKey;
+};
+
+const expertiseContent: Array<ExpertiseContent> = Array.from({ length: 5 }, (_, i) => {
+  return {
+    title: `expertise.${i + 1}.title` as UiKey,
+    line: `expertise.${i + 1}.line` as UiKey,
+    content: `expertise.${i + 1}.content` as UiKey,
+  };
+});
+---
+
+<section id="expertise" class="expertise" aria-labelledby="expertise-heading">
+  <div class="expertise__container">
+    <!-- HEADING  -->
+    <div class="expertise__head">
+      <h2 id="expertise-heading">{t("nav.expertise")}</h2>
+      <p>{t("expertise.intro")}</p>
+    </div>
+
+    <!-- EXPERTISE LISTING -->
+    <ul class="expertise__panel">
+      {
+        expertiseContent.map((c) => (
+          <li class="expertise__panel__item">
+            <div class="expertise__panel__item__head">
+              <h3>{t(c.title)}</h3>
+              <p>{t(c.line)}</p>
+            </div>
+            <div class="expertise__panel__item__content">
+              <ul class="expertise__panel__item__content__list">
+                {t(c.content)
+                  .split("|")
+                  .map((item) => (
+                    <li>{item.trim()}</li>
+                  ))}
+              </ul>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "./expertise.scss";
+</style>

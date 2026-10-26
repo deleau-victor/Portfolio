@@ -1,0 +1,34 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import NotFound from "@/sections/notFound/notFound.astro";
+import { defaultLocale, locales } from "@/i18n/config";
+import { PREFERRED_LOCALE_STORAGE_KEY } from "@/i18n/preferredLocale";
+import { useTranslations } from "@/i18n/utils";
+import { FROM_PARAM } from "@/sections/notFound/notFound";
+
+const t = useTranslations(defaultLocale);
+---
+
+<BaseLayout title={`404 · ${t("notFound.title")}`}>
+  <Fragment slot="head">
+    <script
+      is:inline
+      define:vars={{ locales, lang: defaultLocale, storageKey: PREFERRED_LOCALE_STORAGE_KEY, fromParam: FROM_PARAM }}
+    >
+      let locale = location.pathname.split("/")[1];
+      if (!locales.includes(locale)) {
+        try {
+          locale = localStorage.getItem(storageKey);
+        } catch {}
+      }
+      if (!locales.includes(locale)) {
+        locale = navigator.languages.map((tag) => tag.split("-")[0].toLowerCase()).find((tag) => locales.includes(tag));
+      }
+      if (locale && locale !== lang && !/\/404(\.html)?\/?$/.test(location.pathname)) {
+        const from = encodeURIComponent(location.pathname + location.search);
+        location.replace(`/${locale}/404?${fromParam}=${from}`);
+      }
+    </script>
+  </Fragment>
+  <NotFound />
+</BaseLayout>

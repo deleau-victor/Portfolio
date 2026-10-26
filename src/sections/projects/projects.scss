@@ -1,0 +1,58 @@
+@use "../../styles/abstracts" as *;
+
+.projects {
+  @include section($alt: true);
+  &__container {
+    @include container;
+  }
+}
+
+.projects__head {
+  @include section_head;
+}
+
+.projects__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.projects__item {
+  @include panel;
+  padding: 24px;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-width: 0;
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    h3 {
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.015em;
+    }
+  }
+
+  &__content {
+    color: var(--fg-muted);
+  }
+
+  &__stacks {
+    @include stack;
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 4px;
+  }
+}
