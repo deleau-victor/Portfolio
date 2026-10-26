@@ -22,7 +22,7 @@
     padding: 28px 30px;
     scroll-margin-top: 96px;
 
-    @media (max-width: 760px) {
+    @include below(md) {
       grid-template-columns: 1fr;
       padding: 22px 18px;
     }

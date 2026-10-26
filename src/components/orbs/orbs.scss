@@ -1,3 +1,5 @@
+@use "../../styles/abstracts" as *;
+
 .orbs {
   position: absolute;
   top: 24px;
@@ -6,4 +8,11 @@
   max-width: 100%;
   aspect-ratio: 1;
   pointer-events: none;
+
+  @include below(md) {
+    position: static;
+    justify-self: end;
+    width: 150px;
+    margin-bottom: -32px;
+  }
 }

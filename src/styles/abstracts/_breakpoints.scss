@@ -1,0 +1,25 @@
+@use "sass:map";
+
+// Viewport widths where the layout changes.
+$breakpoints: (
+  // Narrow phones
+  xs: 520px,
+  // Phones
+  sm: 640px,
+  // Tablets and below
+  md: 820px,
+  // Small laptops and below
+  lg: 900px
+);
+
+/// Applies the content on viewports up to the given breakpoint (included).
+/// @param {String} $name A key of `$breakpoints`.
+@mixin below($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error "Unknown breakpoint `#{$name}`. Expected one of: #{map.keys($breakpoints)}.";
+  }
+
+  @media (max-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}

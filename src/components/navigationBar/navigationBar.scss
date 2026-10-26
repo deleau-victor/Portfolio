@@ -16,6 +16,12 @@
     align-items: center;
     gap: 8px 32px;
     padding-block: 14px;
+
+    @include below(md) {
+      grid-template-columns: 1fr auto;
+      grid-template-areas: "brand controls";
+      padding-block: 10px 6px;
+    }
   }
 
   &__brand {
@@ -30,6 +36,9 @@
   &__navigation {
     grid-area: nav;
     min-width: 0;
+    @include below(md) {
+      display: none;
+    }
 
     &__links {
       display: flex;

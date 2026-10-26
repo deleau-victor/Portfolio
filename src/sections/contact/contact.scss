@@ -18,6 +18,10 @@
   gap: 22px;
   max-width: 720px;
 
+  @include below(sm) {
+    padding: 22px 20px;
+  }
+
   &__email {
     display: flex;
     flex-wrap: wrap;
@@ -55,6 +59,12 @@
       align-items: baseline;
       padding-block: 12px;
       border-top: 1px solid var(--border);
+
+      // Label above its value, so links get the full width instead of breaking mid-word.
+      @include below(xs) {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
     }
 
     dt {

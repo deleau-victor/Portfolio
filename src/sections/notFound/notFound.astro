@@ -89,6 +89,10 @@ const home = `/${lang}/`;
       justify-items: start;
       gap: 32px;
       padding-block: 80px 88px;
+
+      @include below(md) {
+        padding-block: 24px 40px;
+      }
     }
 
     &__message {
@@ -96,6 +100,10 @@ const home = `/${lang}/`;
       display: grid;
       gap: 14px;
       max-width: min(620px, 60%);
+
+      @include below(md) {
+        max-width: none;
+      }
     }
 
     &__code {

@@ -10,6 +10,10 @@
     padding-block: 80px 88px;
     display: grid;
     gap: 32px;
+
+    @include below(md) {
+      padding-block: 24px 40px;
+    }
   }
 }
 
@@ -18,6 +22,10 @@
   gap: 14px;
   max-width: min(620px, 60%);
   position: relative;
+
+  @include below(md) {
+    max-width: none;
+  }
 
   &__role {
     font-weight: 700;

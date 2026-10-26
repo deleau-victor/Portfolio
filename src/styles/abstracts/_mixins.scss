@@ -1,3 +1,5 @@
+@use "breakpoints" as *;
+
 // Centered content column, with side gutters that also clear the notch on mobile (safe-area insets).
 @mixin container($max-width: 1120px, $gutter: 20px) {
   max-width: $max-width;
@@ -15,6 +17,15 @@
 
 @mixin section($alt: false) {
   padding-block: 80px;
+  scroll-margin-top: 64px;
+
+  @include below(sm) {
+    padding-block: 56px;
+  }
+
+  @include below(md) {
+    scroll-margin-top: 96px;
+  }
   @if $alt {
     background-color: var(--bg-alt);
   }
