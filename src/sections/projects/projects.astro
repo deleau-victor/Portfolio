@@ -46,9 +46,12 @@ const projects: Array<ProjectContent> = Array.from({ length: 5 }, (_, i) => {
                 ))}
             </ul>
             <div class="projects__item__links">
-              {t(p.links).split("|").length > 0 &&
+              {t(p.links)
+                .split("|")
+                .filter((part) => part !== "").length > 0 &&
                 t(p.links)
                   .split("|")
+                  .filter((part) => part !== "")
                   .map((l) => {
                     const href = l.slice(l.indexOf("(") + 1, l.indexOf(")"));
                     const title = l.slice(l.indexOf("[") + 1, l.indexOf("]"));

@@ -66,7 +66,7 @@ const fr = {
   "projects.3.links": "",
   "projects.4.title": "Moteur de self-transfer aérien",
   "projects.4.content":
-    "Trouve des itinéraires multi-compagnies bon marché qu’aucune compagnie ne vend seule. Il s’appuie sur ma connaissance métier du revenue management aérien et sur les mécanismes du marché, comme par exemple les tarifs bas que certaines compagnies confient aux Online Travel Agencies (OTA) pour remplir leurs avions sans afficher ce prix de front par eux-même. Une API .NET reçoit les critères du voyageur et lance un worker Python, qui agrège les données de vols, construit un graphe de routes et classe les correspondances selon ces critères.",
+    "Un moteur qui trouve des itinéraires multi-compagnies bon marché qu’aucune compagnie ne vend seule. Il s’appuie sur ma connaissance du revenue management aérien et sur les mécanismes du marché, comme les tarifs bas que certaines compagnies confient aux Online Travel Agencies (OTA) pour remplir leurs avions, sans les afficher sur leurs propres canaux. Une API .NET reçoit les critères du voyageur et lance un worker Python, qui agrège les données de vols, construit un graphe de routes avec des heuristiques de correspondance et classe les résultats selon ces critères.",
   "projects.4.tags": ".NET|Python|React|TypeScript",
   "projects.4.links": "",
   "projects.5.title": "Homelab",
@@ -85,22 +85,22 @@ const fr = {
   "about.intro.4":
     "L’aviation me passionne depuis l’enfance, pour sa dimension technique. Un stage en agence de voyages d’affaires m’a ensuite fait découvrir l’autre côté du secteur, notamment les GDS comme Amadeus et Sabre. J’ai travaillé sur Sabre en mode cryptique, uniquement par commandes, et j’étais opérationnel en moins d’une journée. C’est là qu’a germé mon intérêt pour la travel tech, puis pour le revenue management aérien.",
   "about.experience": "Expérience",
-  "about.experience.1.date": "mars 2026 - aujourd'hui",
+  "about.experience.1.date": "mars 2026 – aujourd’hui",
   "about.experience.1.org": "GIE Artic",
   "about.experience.1.role": "Ingénieur Backend .NET Senior / Responsable d’application",
   "about.experience.1.desc":
     "Une quinzaine d’applications métier à ma charge : architecture, modernisation, MCO et mises en production.",
-  "about.experience.2.date": "févr. 2025 - févr. 2026",
+  "about.experience.2.date": "févr. 2025 – févr. 2026",
   "about.experience.2.org": "Devolis",
   "about.experience.2.role": "Consultant .NET",
   "about.experience.2.desc":
-    "Missions de développement .NET chez des clients, puis trois mois comme responsable d’application avant mon embauche par l'un des clients.",
-  "about.experience.3.date": "oct. 2024 - aujourd'hui",
+    "Missions de développement .NET chez des clients, puis trois mois comme responsable d’application avant mon embauche par l’un des clients.",
+  "about.experience.3.date": "oct. 2024 – aujourd’hui",
   "about.experience.3.org": "CoreSync",
   "about.experience.3.role": "",
   "about.experience.3.desc":
-    "Mon entreprise individuelle, sur laquelle je m'appuie également pour publier mes projets open source.",
-  "about.experience.4.date": "févr. 2023 - nov. 2024",
+    "Mon entreprise individuelle, sur laquelle je m’appuie également pour publier mes projets open source.",
+  "about.experience.4.date": "févr. 2023 – nov. 2024",
   "about.experience.4.org": "Dadev",
   "about.experience.4.role": "Développeur Fullstack",
   "about.experience.4.desc": "Devenu référent technique de l’équipe : infrastructure, CI/CD, migration vers .NET.",
@@ -193,7 +193,7 @@ const en = {
   "projects.3.links": "",
   "projects.4.title": "Self-transfer flight engine",
   "projects.4.content":
-    "An engine that finds cheap multi-airline itineraries that no single airline sells. It draws on my knowledge of airline revenue management and on market mechanics, such as the low fares some airlines hand to online travel agencies (OTAs) to fill their planes, without showing those prices on their own channels. A .NET API takes the traveler’s requirements and starts a Python worker, which aggregates flight data, builds a route graph and ranks connections against those requirements.",
+    "An engine that finds cheap multi-airline itineraries that no single airline sells. It draws on my knowledge of airline revenue management and on market mechanics, such as the low fares some airlines hand to online travel agencies (OTAs) to fill their planes, without showing those prices on their own channels. A .NET API takes the traveler’s requirements and starts a Python worker, which aggregates flight data, builds a route graph with connection heuristics and ranks the results against those requirements.",
   "projects.4.tags": ".NET|Python|React|TypeScript",
   "projects.4.links": "",
   "projects.5.title": "Homelab",
@@ -319,7 +319,7 @@ const es = {
   "projects.3.links": "",
   "projects.4.title": "Motor de self-transfer aéreo",
   "projects.4.content":
-    "Un motor que encuentra itinerarios multiaerolínea baratos que ninguna aerolínea vende por sí sola. Se apoya en mi conocimiento del revenue management aéreo y en los mecanismos del mercado, como las tarifas bajas que algunas aerolíneas ceden a las agencias de viajes en línea (OTA) para llenar sus aviones, sin mostrarlas en sus propios canales. Una API .NET recibe los criterios del viajero y lanza un worker en Python, que agrega los datos de vuelos, construye un grafo de rutas y ordena las conexiones según esos criterios.",
+    "Un motor que encuentra itinerarios multiaerolínea baratos que ninguna aerolínea vende por sí sola. Se apoya en mi conocimiento del revenue management aéreo y en los mecanismos del mercado, como las tarifas bajas que algunas aerolíneas ceden a las agencias de viajes en línea (OTA) para llenar sus aviones, sin mostrarlas en sus propios canales. Una API .NET recibe los criterios del viajero y lanza un worker en Python, que agrega los datos de vuelos, construye un grafo de rutas con heurísticas de conexión y ordena los resultados según esos criterios.",
   "projects.4.tags": ".NET|Python|React|TypeScript",
   "projects.4.links": "",
   "projects.5.title": "Homelab",
